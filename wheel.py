@@ -28,20 +28,20 @@ def reverse(t):
     time.sleep(t)
     gpio.cleanup()
 
-def rightTurn():
+def rightTurn(t):
     gpio.output(7, False)
     gpio.output(11,True)
     gpio.output(13, False)
     gpio.output(15, True)
-    time.sleep(0.1)
+    time.sleep(t)
     gpio.cleanup()
 
-def leftTurn():
+def leftTurn(t):
     gpio.output(7,True)
     gpio.output(11,False)
     gpio.output(13,True)
     gpio.output(15,False)
-    time.sleep(0.1)
+    time.sleep(t)
     gpio.cleanup()
 
 def getChar():
@@ -55,15 +55,29 @@ def getChar():
 
 def update():
     while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_w:
-                    init()
-                    forward(0.03)     
-                if event.key == pygame.K_q:
-                    sys.exit()
+	#wtf????
+	for event in pygame.event.get():
+	    if event.type == pygame.KEYDOWN:
+	        if event.key == pygame.K_w:
+		    init()
+		    forward(0.03)	
+	keystate = pygame.key.get_pressed()
+	if keystate[pygame.K_w]:
+	    init()
+            forward(0.03)
+	if keystate[pygame.K_s]:
+	    init()
+            reverse(0.03)
+        if keystate[pygame.K_d]:
+            init()
+            rightTurn(0.03)
+        if keystate[pygame.K_a]:
+	    init()
+	    leftTurn(0.03)
+	if keystate[pygame.K_q]:
+	    sys.exit()
+
+
 
 
 #def key_input(event):
