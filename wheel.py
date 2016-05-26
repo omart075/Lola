@@ -3,8 +3,11 @@ import time
 import sys
 import Tkinter as tk
 import pygame
+import sonar
+
+
 pygame.init()
-pygame.display.set_mode()
+pygame.display.set_mode([100,100])
 
 def init():
 
@@ -54,28 +57,34 @@ def getChar():
     return ch
 
 def update():
-    while True:
+  
 	#wtf????
-	for event in pygame.event.get():
-	    if event.type == pygame.KEYDOWN:
-	        if event.key == pygame.K_w:
-		    init()
-		    forward(0.03)	
-	keystate = pygame.key.get_pressed()
-	if keystate[pygame.K_w]:
-	    init()
-            forward(0.03)
-	if keystate[pygame.K_s]:
-	    init()
-            reverse(0.03)
-        if keystate[pygame.K_d]:
-            init()
-            rightTurn(0.03)
-        if keystate[pygame.K_a]:
-	    init()
-	    leftTurn(0.03)
-	if keystate[pygame.K_q]:
-	    sys.exit()
+    distance = sonar.distance('cm')
+    print distance
+    for event in pygame.event.get():
+	if event.type == pygame.KEYDOWN:
+	    if event.key == pygame.K_w:
+	        pass
+		    #init()
+		    #forward(0.03)	
+     
+
+   
+    keystate = pygame.key.get_pressed()
+    if keystate[pygame.K_w] and distance > 30:
+        init()
+        forward(0.03)
+    if keystate[pygame.K_s]:
+        init()
+        reverse(0.03)
+    if keystate[pygame.K_d]:
+        init()
+        rightTurn(0.03)
+    if keystate[pygame.K_a]:
+	init()
+	leftTurn(0.03)
+    if keystate[pygame.K_q]:
+        sys.exit()
 
 
 
@@ -113,5 +122,6 @@ def update():
 #time.sleep(1)
 #rightTurn()
 #time.sleep(1)
-update()
+while True:
+    update()
 
